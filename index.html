@@ -1,5 +1,59 @@
-<!DOCTYPE html><html lang=zh-CN><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>h5_news_jump</title><script>document.addEventListener('DOMContentLoaded', function() {
-                document.documentElement.style.fontSize = document.documentElement.clientWidth / 20 + 'px'
-            })
-            var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') || CSS.supports('top: constant(a)'))
-            document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' + (coverSupport ? ', viewport-fit=cover' : '') + '" />')</script><link rel=stylesheet href=/h5_news_jump/static/index.css></head><body><noscript><strong>Please enable JavaScript to continue.</strong></noscript><div id=app></div><script src=/h5_news_jump/static/js/chunk-vendors.706b0f75.js></script><script src=/h5_news_jump/static/js/index.391cdc27.js></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手机型号</title>
+    <script src="mobile-detect.min.js"></script>
+</head>
+<body>
+
+<script>
+    // var device_type = navigator.userAgent;//获取userAgent信息  
+    // var md = new MobileDetect(device_type);//实例化mobile-detect  
+    // var os = md.os();//获取系统  
+    // var model = "";  
+    // if (os == "iOS") {//ios系统的处理  
+    //     os = md.os() + md.version("iPhone");  
+    //     model = md.mobile();  
+    // } else if (os == "AndroidOS") {//Android系统的处理  
+    //     os = md.version("Android");  
+    //     model = md.mobile(); 
+    // }  
+    // console.log(os + "---" + model);//打印系统版本和手机型号  
+    // alert(os)
+
+
+    var device_type = navigator.userAgent;//获取userAgent信息  
+     var md = new MobileDetect(device_type);//初始化mobile-detect  
+     var os = md.os();//获取系统  
+     // model:手机型号  ver:系统版本
+     var model = "", ver = '';
+      if (os == "iOS") {//ios系统的处理  
+         model = md.mobile();
+        if(model == "iPhone") {
+            ver = device_type.toLocaleLowerCase().match(/cpu iphone os (.*?) like mac os/);
+            console.log(ver)
+            ver = ver[1].replace(/_/g,".");
+        }
+    } else if (os == "AndroidOS") {//Android系统的处理  
+        var j,sss = device_type.split(";");
+        console.log(sss)
+        ver = sss[1].replace('Android','')
+        for(var i =0;i<sss.length;i++){
+            if (sss[i].indexOf("Build/") > 0){
+                j =i;
+                break;
+            }
+        }
+        if (j > -1) {
+            model = sss[j].substring(0, sss[j].indexOf("Build/"));
+        }
+    }
+    console.log(model)
+    console.log(ver)
+    alert(ver)
+</script>
+</body>
+</html>
